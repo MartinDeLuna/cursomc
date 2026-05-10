@@ -1,4 +1,4 @@
-package com.martins.cursomc.cursomc;
+package com.martins.cursomc;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,5 +9,4 @@ public class CursomcApplication {
     public static void main(String[] args) {
         SpringApplication.run(CursomcApplication.class, args);
     }
-
 }
