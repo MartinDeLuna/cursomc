@@ -1,7 +1,6 @@
 package com.martins.cursomc.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.martins.cursomc.domain.Estado;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
