@@ -1,7 +1,6 @@
-package com.martins.cursomc;
+package com.martins.cursomc.domain;
 
-import com.martins.cursomc.domain.Cidade;
-import com.martins.cursomc.domain.Cliente;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -9,7 +8,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "ENDERECO")
-public class Endereco implements Serializable {
+public class    Endereco implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -20,6 +19,7 @@ public class Endereco implements Serializable {
     private String bairro;
     private String cep;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;

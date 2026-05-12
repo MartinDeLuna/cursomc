@@ -1,6 +1,7 @@
 package com.martins.cursomc;
 
 import com.martins.cursomc.domain.*;
+import com.martins.cursomc.domain.enums.SituacaoPagamento;
 import com.martins.cursomc.domain.enums.TipoCliente;
 import com.martins.cursomc.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 
 @SpringBootApplication
 public class CursomcApplication implements CommandLineRunner {
@@ -25,6 +28,10 @@ public class CursomcApplication implements CommandLineRunner {
     private ClienteRepository clienteRepository;
     @Autowired
     private EnderecoRepository enderecoRepository;
+    @Autowired
+    private PedidoRepository pedidoRepository;
+    @Autowired
+    private PagamentoRepository pagamentoRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(CursomcApplication.class, args);
@@ -73,5 +80,20 @@ public class CursomcApplication implements CommandLineRunner {
 
         clienteRepository.saveAll(Arrays.asList(cli1));
         enderecoRepository.saveAll(Arrays.asList(e1, e2, e3));
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+        Pedido ped1 = new Pedido(null, sdf.parse("01/01/2025 10:30"), cli1, e1);
+        Pedido ped2 = new Pedido(null, sdf.parse("07/07/2025 21:30"), cli1, e3);
+
+        Pagamento pagto1 = new PagamentoCartao(null, SituacaoPagamento.QUITADO, ped1, 6);
+        ped1.setPagamento(pagto1);
+
+        Pagamento pagto2 = new PagamentoBoleto(null, SituacaoPagamento.PENDENTE, ped2, sdf.parse("20/10/2026 00:00"), null);
+        ped2.setPagamento(pagto2);
+
+        cli1.getPedidos().addAll(Arrays.asList(ped1, ped1));
+
+        pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+        pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
     }
 }
