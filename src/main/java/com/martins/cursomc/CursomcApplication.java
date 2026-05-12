@@ -32,6 +32,8 @@ public class CursomcApplication implements CommandLineRunner {
     private PedidoRepository pedidoRepository;
     @Autowired
     private PagamentoRepository pagamentoRepository;
+    @Autowired
+    private ItemPedidoRepository itemPedidoRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(CursomcApplication.class, args);
@@ -80,7 +82,7 @@ public class CursomcApplication implements CommandLineRunner {
 
         clienteRepository.saveAll(Arrays.asList(cli1));
         enderecoRepository.saveAll(Arrays.asList(e1, e2, e3));
-
+//
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
         Pedido ped1 = new Pedido(null, sdf.parse("01/01/2025 10:30"), cli1, e1);
         Pedido ped2 = new Pedido(null, sdf.parse("07/07/2025 21:30"), cli1, e3);
@@ -95,5 +97,18 @@ public class CursomcApplication implements CommandLineRunner {
 
         pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
         pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
+//
+        ItemPedido ip1 = new ItemPedido(ped1, p1, 0.0, 1, 2000.0);
+        ItemPedido ip2 = new ItemPedido(ped1, p3, 0.0, 2, 80.0);
+        ItemPedido ip3 = new ItemPedido(ped2, p2, 100.0, 1, 800.0);
+
+        ped1.getItens().addAll((Arrays.asList(ip1, ip2)));
+        ped2.getItens().addAll((Arrays.asList(ip3)));
+
+        p1.getItens().addAll((Arrays.asList(ip1)));
+        p2.getItens().addAll((Arrays.asList(ip3)));
+        p3.getItens().addAll((Arrays.asList(ip2)));
+
+        itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
     }
 }
